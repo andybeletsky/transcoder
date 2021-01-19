@@ -83,6 +83,7 @@ func (t *Transcoder) Start(opts transcoder.Options) (<-chan transcoder.Progress,
 
 	// Initialize command
 	cmd := exec.Command(t.config.FfmpegBinPath, args...)
+	cmd.Dir = t.config.OutputDir
 
 	// If progresss enabled, get stderr pipe and start progress process
 	if t.config.ProgressEnabled && !t.config.Verbose {
@@ -192,7 +193,7 @@ func (t *Transcoder) validate() error {
 }
 
 // GetMetadata Returns metadata for the specified input file
-func (t *Transcoder) GetMetadata() ( transcoder.Metadata, error) {
+func (t *Transcoder) GetMetadata() (transcoder.Metadata, error) {
 
 	if t.config.FfprobeBinPath != "" {
 		var outb, errb bytes.Buffer
